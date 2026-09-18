@@ -28,68 +28,70 @@
     <section class="graph-panel" aria-labelledby="graphHeading">
       <div class="panel-head">
         <h2 id="graphHeading">Knowledge Graph Canvas</h2>
-        <p>Hover to preview. Click nodes or use keyboard list below.</p>
+        <p>Hover to preview. Click a node to enter its discussion space.</p>
       </div>
       <div class="canvas-shell">
         <canvas id="networkCanvas" aria-hidden="true"></canvas>
-        <div class="overlay-pill" role="note">Tip: For full accessibility, use the module buttons below the graph.</div>
+        <div class="overlay-pill" role="note">Constellation mode: choose a node to zoom into its module forum.</div>
+
+        <aside id="nodeFocusPanel" class="node-focus-panel" aria-live="polite">
+          <div class="focus-header">
+            <h3 id="selectedModuleTitle">Select a module</h3>
+            <button id="resetViewBtn" type="button">Return to Constellation</button>
+          </div>
+
+          <p id="selectedModuleDescription">Pick a module from the graph or list to begin.</p>
+
+          <div class="focus-grid">
+            <div>
+              <h4>Research Prompts</h4>
+              <ul id="selectedModulePrompts"></ul>
+            </div>
+
+            <div>
+              <h4>Share a Thought</h4>
+              <form id="commentForm" class="comment-form">
+                <div class="form-row">
+                  <label for="contributorName">Name</label>
+                  <input id="contributorName" name="contributorName" type="text" maxlength="60" required>
+                </div>
+
+                <div class="form-row">
+                  <label for="ideaType">Contribution Type</label>
+                  <select id="ideaType" name="ideaType" required>
+                    <option value="">Choose one</option>
+                    <option value="Comment">Comment</option>
+                    <option value="Research Idea">Research Idea</option>
+                    <option value="Question">Question</option>
+                    <option value="Method">Method</option>
+                    <option value="Challenge">Challenge</option>
+                  </select>
+                </div>
+
+                <div class="form-row">
+                  <label for="ideaText">Your Note</label>
+                  <textarea id="ideaText" name="ideaText" rows="3" maxlength="500" required></textarea>
+                </div>
+
+                <button id="submitCommentBtn" type="submit">Post to This Module</button>
+              </form>
+
+              <div class="comment-list-wrap">
+                <h4>Module Comments</h4>
+                <ul id="commentList" class="comment-list"></ul>
+              </div>
+            </div>
+          </div>
+        </aside>
       </div>
     </section>
 
     <section class="module-panel" aria-labelledby="moduleHeading">
-      <h2 id="moduleHeading">Modules and Research Threads</h2>
-      <p class="module-intro">Select a module to view description, starter prompts, and community notes.</p>
-
-      <div class="module-grid">
-        <div class="module-list-wrap">
-          <h3 id="module-list">Module List</h3>
-          <div id="moduleButtons" class="module-buttons" role="list"></div>
-        </div>
-
-        <article class="module-detail" aria-live="polite">
-          <h3 id="selectedModuleTitle">Select a module</h3>
-          <p id="selectedModuleDescription">Pick a module from the graph or list to begin.</p>
-          <div>
-            <h4>Research Prompts</h4>
-            <ul id="selectedModulePrompts"></ul>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="comment-panel" aria-labelledby="commentHeading">
-      <h2 id="commentHeading">Share Comments, Thoughts, and Ideas</h2>
-      <p>All comments save locally in your browser for this demo.</p>
-
-      <form id="commentForm" class="comment-form">
-        <div class="form-row">
-          <label for="contributorName">Name</label>
-          <input id="contributorName" name="contributorName" type="text" maxlength="60" required>
-        </div>
-
-        <div class="form-row">
-          <label for="ideaType">Contribution Type</label>
-          <select id="ideaType" name="ideaType" required>
-            <option value="">Choose one</option>
-            <option value="Comment">Comment</option>
-            <option value="Research Idea">Research Idea</option>
-            <option value="Question">Question</option>
-            <option value="Method">Method</option>
-            <option value="Challenge">Challenge</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="ideaText">Your Note</label>
-          <textarea id="ideaText" name="ideaText" rows="4" maxlength="500" required></textarea>
-        </div>
-
-        <button id="submitCommentBtn" type="submit">Post to Selected Module</button>
-      </form>
-
-      <div class="comment-list-wrap">
-        <h3>Module Comments</h3>
-        <ul id="commentList" class="comment-list"></ul>
+      <h2 id="moduleHeading">Module Navigation</h2>
+      <p class="module-intro">Accessible keyboard list. Selecting here also zooms to that module node.</p>
+      <div class="module-list-wrap">
+        <h3 id="module-list">Module List</h3>
+        <div id="moduleButtons" class="module-buttons" role="list"></div>
       </div>
     </section>
   </main>
