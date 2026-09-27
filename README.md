@@ -1,33 +1,173 @@
-# OECD Smart Cities Knowledge Graph (Starter)
+# OECD Smart Cities Knowledge Graph
 
-This starter website gives you:
+Interactive constellation graph with node-centered discussion orbs and a Neo4j graph backend.
 
-- An interactive knowledge graph inspired by your network canvas concept.
-- Accessible module navigation via keyboard-friendly buttons.
-- Per-module comments, thoughts, and research ideas.
-- Local browser persistence using `localStorage`.
-- JSON export of collected comments.
+## What Is Implemented
 
-## Quick Start
+- Cursor-driven network navigation:
+  - Drag canvas to pan.
+  - Mouse wheel to zoom in and out.
+  - Click a node to zoom/focus on that module.
+- Circular node popup (orb) with color-separated content:
+  - Report facts in aqua text.
+  - Community comments in cool blue text cards.
+- Neo4j-backed graph API for typed nodes and named links:
+  - Node types: `Person`, `Comment`, `ReportText`, `Module`
+  - Relationship types: `FOLLOWS_PERSON`, `FOLLOWS_MODULE`, `POSTED_COMMENT`, `BELONGS_TO_MODULE`, `SOURCE_TEXT_BELONGS_TO_MODULE`, `COMMENT_REFERENCES_SOURCE_TEXT`, `PERSON_MENTIONS_MODULE`
+- Local fallback:
+  - Frontend keeps comments in localStorage if API is unavailable.
 
-1. Open `index.html` in your browser.
-2. Click a graph node or module button.
-3. Add comments or research ideas in the form.
-4. Use **Export Comments JSON** to save discussion data.
+## Project Files
 
-## Files
+- `index.html` - Page structure, canvas, and circular module orb UI.
+- `style.css` - Ethereal visual styling and orb layout.
+- `app.js` - Graph physics, pan/zoom controls, module focus, and API integration.
+- `server.js` - Express + Neo4j backend and graph endpoints.
+- `.env.example` - Environment variable template.
 
-- `index.html`: App structure and accessible sections.
-- `style.css`: Visual design, layout, and responsive behavior.
-- `app.js`: Graph animation, module details, and comment storage.
+## Setup
 
-## Important Note
+1. Install dependencies:
 
-Comments are local to one browser/device for now. To make this collaborative across users, connect this UI to a shared backend database and authentication layer.
+```bash
+npm install
+```
 
-## Next Build Steps
+2. Create `.env` from `.env.example` and set your Neo4j values:
 
-- Parse dimensions directly from `AI_for_advancing_smart_cities.pdf` and replace seed modules.
-- Add backend (Supabase/Firebase/Postgres API) for real multi-user discussion.
-- Add moderation controls and optional anonymous posting.
-- Add upvote tagging for promising research ideas.
+```env
+PORT=3000
+NEO4J_URI=neo4j+s://<your-aura-host>.databases.neo4j.io
+NEO4J_USERNAME=neo4j
+NEO4J_PASSWORD=<your-neo4j-password-or-api-key>
+NEO4J_DATABASE=neo4j
+```
+
+3. Start the app:
+
+```bash
+npm start
+```
+
+4. Open:
+
+- `http://localhost:3000`
+
+## API Endpoints
+
+### Health
+
+- `GET /api/health`
+
+### Schema Init
+
+- `POST /api/schema/init`
+- Creates uniqueness constraints for `Person`, `Comment`, `Module`, `ReportText`.
+
+### Generic Node Creation / Upsert
+
+- `POST /api/nodes`
+
+Body example:
+
+```json
+{
+  "type": "Module",
+  "id": "governance",
+  "properties": {
+    "name": "Urban Governance",
+    "category": "Institutions"
+  }
+}
+```
+
+### Generic Link Creation / Upsert
+
+- `POST /api/links`
+
+Body example:
+
+```json
+{
+  "fromType": "Person",
+  "fromId": "person-alex",
+  "toType": "Module",
+  "toId": "governance",
+  "relationType": "FOLLOWS_MODULE",
+  "properties": {
+    "source": "ui"
+  }
+}
+```
+
+### Follow Endpoint
+
+- `POST /api/follows`
+
+Body examples:
+
+```json
+{
+  "followerPersonId": "person-alex",
+  "targetType": "Person",
+  "targetId": "person-sam"
+}
+```
+
+```json
+{
+  "followerPersonId": "person-alex",
+  "targetType": "Module",
+  "targetId": "mobility"
+}
+```
+
+### Create Comment and Required Links
+
+- `POST /api/comments`
+- Creates or updates:
+  - `Person`
+  - `Comment`
+  - `Module`
+- Creates relationships:
+  - `(Person)-[:POSTED_COMMENT]->(Comment)`
+  - `(Comment)-[:BELONGS_TO_MODULE]->(Module)`
+  - Optional: `(Comment)-[:COMMENT_REFERENCES_SOURCE_TEXT]->(ReportText)`
+
+Body example:
+
+```json
+{
+  "personName": "Alex",
+  "moduleId": "governance",
+  "body": "Can we compare participatory budgeting outcomes across districts?",
+  "kind": "Research Idea"
+}
+```
+
+### Module Discussion Query
+
+- `GET /api/modules/:moduleId/discussion`
+- Returns module, related report text, and comments with author names.
+
+### Seed Modules and Report Facts
+
+- `POST /api/seed/modules`
+- Accepts module array and creates:
+  - `Module` nodes
+  - `ReportText` nodes
+  - `SOURCE_TEXT_BELONGS_TO_MODULE` links
+
+### Whole Graph Snapshot
+
+- `GET /api/graph`
+
+## Recommended First Run Sequence
+
+1. `POST /api/schema/init`
+2. `POST /api/seed/modules` with the module array in `app.js`
+3. Open UI and begin posting comments.
+
+## Note on Report Facts
+
+The current fact bullets are seeded from high-level report themes. You can replace them with exact excerpt-level facts from your PDF and optionally attach citation metadata in `ReportText` node properties.

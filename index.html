@@ -14,8 +14,7 @@
 
   <header class="site-header">
     <div class="brand-wrap">
-      <p class="eyebrow">OECD Smart Cities</p>
-      <h1>Interactive Knowledge Graph</h1>
+      <p class="eyebrow">OECD AI for Smart Cities</p>
       <p class="tagline">Explore core dimensions, connect ideas, and co-design better city futures.</p>
     </div>
     <div class="header-actions" aria-label="Graph and comment actions">
@@ -28,27 +27,35 @@
     <section class="graph-panel" aria-labelledby="graphHeading">
       <div class="panel-head">
         <h2 id="graphHeading">Knowledge Graph Canvas</h2>
-        <p>Hover to preview. Click a node to enter its discussion space.</p>
+        <p>Drag to pan, scroll to zoom, click a node to open its orb discussion.</p>
       </div>
       <div class="canvas-shell">
         <canvas id="networkCanvas" aria-hidden="true"></canvas>
-        <div class="overlay-pill" role="note">Constellation mode: choose a node to zoom into its module forum.</div>
+        <div class="overlay-pill" role="note">Constellation mode: cursor drag pans space, wheel zooms, click opens node orb.</div>
 
-        <aside id="nodeFocusPanel" class="node-focus-panel" aria-live="polite">
+        <aside id="nodeFocusPanel" class="node-orb-popup" aria-live="polite">
           <div class="focus-header">
             <h3 id="selectedModuleTitle">Select a module</h3>
-            <button id="resetViewBtn" type="button">Return to Constellation</button>
+            <div class="focus-actions">
+              <button id="recenterNodeBtn" type="button">Re-center Node</button>
+              <button id="resetViewBtn" type="button">Return to Constellation</button>
+            </div>
           </div>
 
           <p id="selectedModuleDescription">Pick a module from the graph or list to begin.</p>
 
-          <div class="focus-grid">
-            <div>
+          <div class="orb-scroll">
+            <div class="orb-section">
               <h4>Research Prompts</h4>
               <ul id="selectedModulePrompts"></ul>
             </div>
 
-            <div>
+            <div class="orb-section">
+              <h4>Report Facts</h4>
+              <ul id="selectedModuleFacts" class="fact-list"></ul>
+            </div>
+
+            <div class="orb-section">
               <h4>Share a Thought</h4>
               <form id="commentForm" class="comment-form">
                 <div class="form-row">
@@ -75,11 +82,11 @@
 
                 <button id="submitCommentBtn" type="submit">Post to This Module</button>
               </form>
+            </div>
 
-              <div class="comment-list-wrap">
-                <h4>Module Comments</h4>
-                <ul id="commentList" class="comment-list"></ul>
-              </div>
+            <div class="comment-list-wrap orb-section">
+              <h4>Community Comments</h4>
+              <ul id="commentList" class="comment-list"></ul>
             </div>
           </div>
         </aside>
