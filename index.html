@@ -18,8 +18,7 @@
       <p class="tagline">Explore core dimensions, connect ideas, and co-design better city futures.</p>
     </div>
     <div class="header-actions" aria-label="Graph and comment actions">
-      <button id="exportCommentsBtn" type="button">Export Comments JSON</button>
-      <button id="clearModuleCommentsBtn" type="button">Clear Selected Module Comments</button>
+      <span class="app-badge">Constellation View</span>
     </div>
   </header>
 
@@ -31,7 +30,8 @@
       </div> -->
       <div class="canvas-shell">
         <canvas id="networkCanvas" aria-hidden="true"></canvas>
-        <div class="overlay-pill" role="note">Constellation mode: cursor drag pans space, wheel zooms, click opens node orb.</div>
+        <!-- <div class="overlay-pill" role="note">Constellation mode: cursor drag pans space, wheel zooms, click opens node orb.</div> -->
+        <button id="exportCommentsBtn" class="export-comments-float" type="button">Export Comments JSON</button>
 
         <aside id="nodeFocusPanel" class="node-orb-popup hidden" aria-live="polite">
           <div class="focus-header">

@@ -154,7 +154,6 @@ const selectedModuleFacts = document.getElementById("selectedModuleFacts");
 const commentForm = document.getElementById("commentForm");
 const commentList = document.getElementById("commentList");
 const exportCommentsBtn = document.getElementById("exportCommentsBtn");
-const clearModuleCommentsBtn = document.getElementById("clearModuleCommentsBtn");
 const resetViewBtn = document.getElementById("resetViewBtn");
 const nodeFocusPanel = document.getElementById("nodeFocusPanel");
 
@@ -259,7 +258,6 @@ function wireEvents() {
 
   commentForm.addEventListener("submit", onCommentSubmit);
   exportCommentsBtn.addEventListener("click", exportComments);
-  clearModuleCommentsBtn.addEventListener("click", clearSelectedModuleComments);
   resetViewBtn.addEventListener("click", resetConstellationView);
 }
 
@@ -572,8 +570,10 @@ function renderLinks() {
     ctx.beginPath();
     ctx.moveTo(source.x, source.y);
     ctx.lineTo(target.x, target.y);
-    ctx.lineWidth = isActive ? 1.8 : 1;
-    ctx.strokeStyle = isActive ? "rgba(163, 240, 232, 0.88)" : "rgba(171, 204, 255, 0.24)";
+    ctx.lineWidth = isActive ? 2.2 : 1;
+    ctx.strokeStyle = isActive
+      ? "rgba(240, 200, 94, 0.9)"
+      : "rgba(240, 200, 94, 0.22)";
     ctx.stroke();
   }
 }
@@ -689,17 +689,6 @@ function renderCommentsForModule(moduleId) {
 
     commentList.appendChild(item);
   }
-}
-
-function clearSelectedModuleComments() {
-  if (!selectedModuleId) return;
-
-  const confirmClear = window.confirm("Delete all comments for the selected module?");
-  if (!confirmClear) return;
-
-  commentsByModule[selectedModuleId] = [];
-  persistComments();
-  renderCommentsForModule(selectedModuleId);
 }
 
 function exportComments() {
