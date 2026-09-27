@@ -147,7 +147,6 @@ const links = [
 const canvas = document.getElementById("networkCanvas");
 const ctx = canvas.getContext("2d");
 
-const moduleButtons = document.getElementById("moduleButtons");
 const selectedModuleTitle = document.getElementById("selectedModuleTitle");
 const selectedModuleDescription = document.getElementById("selectedModuleDescription");
 const selectedModulePrompts = document.getElementById("selectedModulePrompts");
@@ -157,7 +156,7 @@ const commentList = document.getElementById("commentList");
 const exportCommentsBtn = document.getElementById("exportCommentsBtn");
 const clearModuleCommentsBtn = document.getElementById("clearModuleCommentsBtn");
 const resetViewBtn = document.getElementById("resetViewBtn");
-const recenterNodeBtn = document.getElementById("recenterNodeBtn");
+const nodeFocusPanel = document.getElementById("nodeFocusPanel");
 
 let selectedModuleId = modules[0].id;
 let hoverNode = null;
@@ -187,11 +186,11 @@ const starField = createStarField(130);
 initialize();
 animate();
 
-function initialize() {
+async function initialize() {
   setupCanvasSize();
   window.addEventListener("resize", setupCanvasSize);
 
-  createModuleButtons();
+  await seedModulesToApi();
   setSelectedModule(selectedModuleId, true);
   wireEvents();
 }
@@ -244,25 +243,6 @@ function setupCanvasSize() {
   }
 }
 
-function createModuleButtons() {
-  moduleButtons.innerHTML = "";
-
-  for (const node of nodes) {
-    const button = document.createElement("button");
-    button.className = "module-button";
-    button.type = "button";
-    button.role = "listitem";
-    button.dataset.moduleId = node.id;
-    button.innerHTML = `<strong>${node.label}</strong><br><span>${node.category}</span>`;
-
-    button.addEventListener("click", () => {
-      setSelectedModule(node.id);
-    });
-
-    moduleButtons.appendChild(button);
-  }
-}
-
 function wireEvents() {
   canvas.addEventListener("mousemove", onCanvasMove);
   canvas.addEventListener("mouseleave", () => {
@@ -281,7 +261,6 @@ function wireEvents() {
   exportCommentsBtn.addEventListener("click", exportComments);
   clearModuleCommentsBtn.addEventListener("click", clearSelectedModuleComments);
   resetViewBtn.addEventListener("click", resetConstellationView);
-  recenterNodeBtn.addEventListener("click", recenterOnSelected);
 }
 
 function onPointerDown(event) {
@@ -387,11 +366,6 @@ function setSelectedModule(moduleId, skipCameraTransition = false) {
     selectedModuleFacts.appendChild(item);
   }
 
-  Array.from(moduleButtons.children).forEach((button) => {
-    const active = button.dataset.moduleId === moduleId;
-    button.setAttribute("aria-current", active ? "true" : "false");
-  });
-
   if (skipCameraTransition) {
     camera.x = selectedNode.x;
     camera.y = selectedNode.y;
@@ -405,16 +379,8 @@ function setSelectedModule(moduleId, skipCameraTransition = false) {
 
   renderCommentsForModule(moduleId);
   loadDiscussionFromApi(moduleId);
-}
 
-function recenterOnSelected() {
-  const selectedNode = nodeMap.get(selectedModuleId);
-  if (!selectedNode) return;
-
-  camera.manualControl = false;
-  camera.targetX = selectedNode.x;
-  camera.targetY = selectedNode.y;
-  camera.targetScale = 1.72;
+  if (nodeFocusPanel) nodeFocusPanel.classList.remove("hidden");
 }
 
 function resetConstellationView() {
@@ -423,6 +389,8 @@ function resetConstellationView() {
   camera.targetX = width / 2;
   camera.targetY = height / 2;
   camera.targetScale = 1;
+
+  if (nodeFocusPanel) nodeFocusPanel.classList.add("hidden");
 }
 
 function stepPhysics() {
@@ -755,7 +723,10 @@ function exportComments() {
 async function loadDiscussionFromApi(moduleId) {
   try {
     const response = await fetch(`/api/modules/${encodeURIComponent(moduleId)}/discussion`);
-    if (!response.ok) return;
+    if (!response.ok) {
+      console.warn(`Discussion API returned ${response.status} for module ${moduleId}`);
+      return;
+    }
 
     const payload = await response.json();
     const apiComments = Array.isArray(payload.comments) ? payload.comments : [];
@@ -771,8 +742,26 @@ async function loadDiscussionFromApi(moduleId) {
     commentsByModule[moduleId] = dedupeComments([...(commentsByModule[moduleId] || []), ...transformed]);
     persistComments();
     renderCommentsForModule(moduleId);
-  } catch {
-    // Local mode fallback is intentional when API is unavailable.
+  } catch (error) {
+    console.warn("Discussion API unavailable; running in local mode.", error);
+  }
+}
+
+async function seedModulesToApi() {
+  try {
+    const response = await fetch("/api/seed/modules", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ modules })
+    });
+
+    if (!response.ok) {
+      console.warn("Module seed failed; API may be unavailable.", response.status);
+    } else {
+      console.log("Modules seeded to Neo4j successfully.");
+    }
+  } catch (error) {
+    console.warn("Module seed request failed; running in local mode.", error);
   }
 }
 

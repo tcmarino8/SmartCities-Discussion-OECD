@@ -33,11 +33,10 @@
         <canvas id="networkCanvas" aria-hidden="true"></canvas>
         <div class="overlay-pill" role="note">Constellation mode: cursor drag pans space, wheel zooms, click opens node orb.</div>
 
-        <aside id="nodeFocusPanel" class="node-orb-popup" aria-live="polite">
+        <aside id="nodeFocusPanel" class="node-orb-popup hidden" aria-live="polite">
           <div class="focus-header">
             <h3 id="selectedModuleTitle">Select a module</h3>
             <div class="focus-actions">
-              <button id="recenterNodeBtn" type="button">Re-center Node</button>
               <button id="resetViewBtn" type="button">Return to Constellation</button>
             </div>
           </div>
@@ -93,18 +92,11 @@
       </div>
     </section>
 
-    <section class="module-panel" aria-labelledby="moduleHeading">
-      <h2 id="moduleHeading">Module Navigation</h2>
-      <p class="module-intro">Accessible keyboard list. Selecting here also zooms to that module node.</p>
-      <div class="module-list-wrap">
-        <h3 id="module-list">Module List</h3>
-        <div id="moduleButtons" class="module-buttons" role="list"></div>
-      </div>
-    </section>
+
   </main>
 
   <footer class="site-footer">
-    <p>Next step: connect this frontend to a shared backend (Supabase/Firebase/Postgres) so contributions are visible to everyone.</p>
+    
   </footer>
 
   <script src="app.js"></script>

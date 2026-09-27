@@ -130,13 +130,12 @@ textarea:focus-visible,
   padding: 0 1.25rem 2.5rem;
 }
 
-.graph-panel,
-.module-panel {
-  background: var(--paper);
-  border: 1px solid var(--line);
+.graph-panel {
+  /* background: var(--paper); */
+  /* border: 1px solid var(--line); */
   border-radius: 16px;
   box-shadow: var(--shadow-soft);
-  padding: 1rem;
+  padding: 2rem;
   backdrop-filter: blur(6px);
 }
 
@@ -205,6 +204,13 @@ textarea:focus-visible,
   backdrop-filter: blur(9px);
   display: flex;
   flex-direction: column;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.node-orb-popup.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(20px) scale(0.98);
 }
 
 .node-orb-popup::before {
