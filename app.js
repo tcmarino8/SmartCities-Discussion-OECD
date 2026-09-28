@@ -156,6 +156,11 @@ const selectedModulePrompts = document.getElementById("selectedModulePrompts");
 const selectedModuleFacts = document.getElementById("selectedModuleFacts");
 const commentForm = document.getElementById("commentForm");
 const commentList = document.getElementById("commentList");
+const chatbotForm = document.getElementById("chatbotForm");
+const chatbotInput = document.getElementById("chatbotInput");
+const chatbotSubmitBtn = document.getElementById("chatbotSubmitBtn");
+const chatbotMessageList = document.getElementById("chatbotMessageList");
+const chatbotStatus = document.getElementById("chatbotStatus");
 const exportCommentsBtn = document.getElementById("exportCommentsBtn");
 const resetViewBtn = document.getElementById("resetViewBtn");
 const nodeFocusPanel = document.getElementById("nodeFocusPanel");
@@ -181,6 +186,7 @@ const camera = {
 
 const STORAGE_KEY = "smart-city-module-comments-v1";
 const commentsByModule = loadComments();
+const chatbotByModule = {};
 const nodes = initializeNodes(modules);
 const nodeMap = new Map(nodes.map((node) => [node.id, node]));
 const starField = createStarField(130);
@@ -289,6 +295,7 @@ function wireEvents() {
   canvas.addEventListener("wheel", onWheelZoom, { passive: false });
 
   commentForm.addEventListener("submit", onCommentSubmit);
+  if (chatbotForm) chatbotForm.addEventListener("submit", onChatbotSubmit);
   exportCommentsBtn.addEventListener("click", exportComments);
   resetViewBtn.addEventListener("click", resetConstellationView);
 }
@@ -408,6 +415,7 @@ function setSelectedModule(moduleId, skipCameraTransition = false) {
   camera.targetScale = 1.72;
 
   renderCommentsForModule(moduleId);
+  renderChatbotForModule(moduleId);
   loadDiscussionFromApi(moduleId);
 
   if (nodeFocusPanel) nodeFocusPanel.classList.remove("hidden");
@@ -721,6 +729,131 @@ function renderCommentsForModule(moduleId) {
 
     commentList.appendChild(item);
   }
+}
+
+function renderChatbotForModule(moduleId) {
+  if (!chatbotMessageList) return;
+
+  chatbotMessageList.innerHTML = "";
+  const messages = chatbotByModule[moduleId] || [];
+
+  if (messages.length === 0) {
+    const item = document.createElement("li");
+    item.className = "chatbot-msg chatbot-msg-assistant";
+    item.innerHTML = "<p>I can answer questions about OECD AI for smart cities findings, website content, and project examples linked to this module.</p>";
+    chatbotMessageList.appendChild(item);
+    return;
+  }
+
+  for (const message of messages) {
+    const item = document.createElement("li");
+    item.className = `chatbot-msg ${message.role === "user" ? "chatbot-msg-user" : "chatbot-msg-assistant"}`;
+
+    const role = message.role === "user" ? "You" : "OECD Assistant";
+    const time = new Date(message.createdAt).toLocaleString();
+    item.innerHTML = `
+      <p>${escapeHtml(message.content)}</p>
+      <div class="chatbot-msg-meta">${escapeHtml(role)} · ${escapeHtml(time)}</div>
+    `;
+
+    if (Array.isArray(message.citations) && message.citations.length) {
+      const citations = document.createElement("div");
+      citations.className = "chatbot-citations";
+
+      for (const citation of message.citations.slice(0, 6)) {
+        if (!citation?.url) continue;
+        const link = document.createElement("a");
+        link.href = citation.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = citation.label || "Source";
+        citations.appendChild(link);
+      }
+
+      if (citations.children.length) item.appendChild(citations);
+    }
+
+    chatbotMessageList.appendChild(item);
+  }
+
+  chatbotMessageList.scrollTop = chatbotMessageList.scrollHeight;
+}
+
+async function onChatbotSubmit(event) {
+  event.preventDefault();
+  if (!selectedModuleId || !chatbotInput) return;
+
+  const activeModuleId = selectedModuleId;
+  const question = chatbotInput.value.trim();
+  if (!question) return;
+
+  if (!chatbotByModule[activeModuleId]) chatbotByModule[activeModuleId] = [];
+
+  chatbotByModule[activeModuleId].push({
+    role: "user",
+    content: question,
+    createdAt: new Date().toISOString()
+  });
+
+  renderChatbotForModule(activeModuleId);
+  updateChatStatus("Thinking with OECD and report context...");
+  setChatbotPending(true);
+
+  const history = chatbotByModule[activeModuleId]
+    .slice(-8)
+    .map((entry) => ({ role: entry.role, content: entry.content }));
+
+  try {
+    const response = await fetch("/api/chatbot/query", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        moduleId: activeModuleId,
+        question,
+        history
+      })
+    });
+
+    if (!response.ok) {
+      const errorPayload = await response.json().catch(() => ({}));
+      throw new Error(errorPayload.error || `Chatbot request failed (${response.status})`);
+    }
+
+    const payload = await response.json();
+
+    chatbotByModule[activeModuleId].push({
+      role: "assistant",
+      content: String(payload.answer || "I could not find enough OECD-specific context to answer confidently."),
+      citations: Array.isArray(payload.citations) ? payload.citations : [],
+      createdAt: new Date().toISOString()
+    });
+
+    renderChatbotForModule(activeModuleId);
+    updateChatStatus(payload.mode === "fallback" ? "Fallback mode: add MCP bridge + model key for stronger answers." : "Answer ready");
+  } catch (error) {
+    chatbotByModule[activeModuleId].push({
+      role: "assistant",
+      content: `I could not complete the OECD query right now. ${error.message}`,
+      createdAt: new Date().toISOString()
+    });
+
+    renderChatbotForModule(activeModuleId);
+    updateChatStatus("Error while querying assistant");
+  } finally {
+    setChatbotPending(false);
+    chatbotForm.reset();
+  }
+}
+
+function updateChatStatus(message) {
+  if (!chatbotStatus) return;
+  chatbotStatus.textContent = message;
+}
+
+function setChatbotPending(isPending) {
+  if (!chatbotSubmitBtn || !chatbotInput) return;
+  chatbotSubmitBtn.disabled = isPending;
+  chatbotInput.disabled = isPending;
 }
 
 function exportComments() {

@@ -95,6 +95,21 @@
               <h4>Community Comments</h4>
               <ul id="commentList" class="comment-list"></ul>
             </div>
+
+            <div class="chatbot-wrap orb-section">
+              <h4>OECD Smart Cities Assistant</h4>
+              <p class="chatbot-hint">Ask about AI for smart cities, OECD findings, or projects mentioned in the report and OECD sources.</p>
+              <div id="chatbotStatus" class="chatbot-status" aria-live="polite">Ready</div>
+              <ul id="chatbotMessageList" class="chatbot-message-list" aria-live="polite"></ul>
+
+              <form id="chatbotForm" class="chatbot-form">
+                <div class="form-row">
+                  <label for="chatbotInput">Ask the assistant</label>
+                  <textarea id="chatbotInput" name="chatbotInput" rows="3" maxlength="800" required placeholder="Example: Which OECD projects use AI for inclusive mobility?"></textarea>
+                </div>
+                <button id="chatbotSubmitBtn" type="submit">Ask OECD Assistant</button>
+              </form>
+            </div>
           </div>
         </aside>
       </div>

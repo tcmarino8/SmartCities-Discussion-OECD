@@ -11,6 +11,7 @@ Interactive constellation graph with node-centered discussion orbs and a Neo4j g
 - Circular node popup (orb) with color-separated content:
   - Report facts in aqua text.
   - Community comments in cool blue text cards.
+  - OECD chatbot directly under comments for module-specific Q&A.
 - Neo4j-backed graph API for typed nodes and named links:
   - Node types: `Person`, `Comment`, `ReportText`, `Module`
   - Relationship types: `FOLLOWS_PERSON`, `FOLLOWS_MODULE`, `POSTED_COMMENT`, `BELONGS_TO_MODULE`, `SOURCE_TEXT_BELONGS_TO_MODULE`, `COMMENT_REFERENCES_SOURCE_TEXT`, `PERSON_MENTIONS_MODULE`
@@ -23,7 +24,7 @@ Interactive constellation graph with node-centered discussion orbs and a Neo4j g
 - `style.css` - Ethereal visual styling and orb layout.
 - `app.js` - Graph physics, pan/zoom controls, module focus, and API integration.
 - `server.js` - Express + Neo4j backend and graph endpoints.
-- `.env.example` - Environment variable template.
+- `.env` - Environment variables for server, Neo4j, and chatbot integrations.
 
 ## Setup
 
@@ -33,7 +34,7 @@ Interactive constellation graph with node-centered discussion orbs and a Neo4j g
 npm install
 ```
 
-2. Create `.env` from `.env.example` and set your Neo4j values:
+2. Configure `.env` with your Neo4j values:
 
 ```env
 PORT=3000
@@ -41,6 +42,16 @@ NEO4J_URI=neo4j+s://<your-aura-host>.databases.neo4j.io
 NEO4J_USERNAME=neo4j
 NEO4J_PASSWORD=<your-neo4j-password-or-api-key>
 NEO4J_DATABASE=neo4j
+
+# Optional chatbot model config
+OPENAI_API_KEY=<your-openai-key>
+OPENAI_MODEL=gpt-4.1-mini
+
+# Optional MCP bridge adapter endpoint
+# This endpoint should return JSON like: { "snippets": [{ "title": "...", "text": "...", "url": "..." }] }
+MCP_BRIDGE_URL=http://localhost:8080/oecd-search
+MCP_BRIDGE_API_KEY=
+OECD_SITE_SCOPE=https://www.oecd.org
 ```
 
 3. Start the app:
@@ -177,6 +188,67 @@ Body example:
 ### Whole Graph Snapshot
 
 - `GET /api/graph`
+
+### OECD Chatbot Query
+
+- `POST /api/chatbot/query`
+- Returns a grounded answer for the currently selected module.
+- Uses:
+  - Module facts from the frontend seed.
+  - `ReportText` and module comments from Neo4j (when configured).
+  - Optional external OECD snippets from `MCP_BRIDGE_URL`.
+  - Optional model generation when `OPENAI_API_KEY` is set.
+
+Body example:
+
+```json
+{
+  "moduleId": "mobility",
+  "question": "Which OECD smart city projects use AI for equitable mobility?",
+  "history": [
+    { "role": "user", "content": "What does OECD suggest for city AI governance?" }
+  ]
+}
+```
+
+### Import Report Citation Anchors
+
+- `POST /api/reporttext/anchors/import`
+- Purpose:
+  - Attach report excerpts to a specific module with citation metadata.
+  - Metadata fields are stored on `ReportText` nodes and used in chatbot retrieval.
+- Fields:
+  - `moduleId`: one of your module ids (for example `governance`, `mobility`).
+  - `anchors`: array of excerpt objects.
+
+Body example:
+
+```json
+{
+  "moduleId": "governance",
+  "anchors": [
+    {
+      "id": "gov-anchor-1",
+      "text": "City AI governance improves when procurement, policy, and data strategy are aligned.",
+      "page": "TBD",
+      "section": "Governance and institutional capacity",
+      "url": "https://www.oecd.org",
+      "sourceLabel": "AI for Advancing Smart Cities",
+      "tags": ["governance", "procurement", "policy", "data strategy"]
+    }
+  ]
+}
+```
+
+- Retrieval behavior:
+  - Chatbot first filters by `moduleId`.
+  - It ranks module anchors against the user question using keyword overlap from anchor text, section, and tags.
+  - Top anchors are added to the model context and returned as citations.
+
+### 403 Chatbot Errors
+
+- If the model provider returns 403 (invalid or unauthorized key), the server now responds with fallback grounded output instead of a hard error.
+- This lets the module chatbot continue answering using available module facts and imported report anchors while you fix credentials.
 
 ## Recommended First Run Sequence
 
