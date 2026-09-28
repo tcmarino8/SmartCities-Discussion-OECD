@@ -146,7 +146,10 @@ const links = [
 
 const canvas = document.getElementById("networkCanvas");
 const ctx = canvas.getContext("2d");
-
+const mapBackdrop = document.getElementById("mapBackdrop");
+const STADIA_MAPS_API_KEY = "e7416686-5bce-42d2-9c4b-c1ae8090fcbf";
+const ISTANBUL_CENTER = [41.0082, 28.9784];
+const ISTANBUL_ZOOM = 13;
 const selectedModuleTitle = document.getElementById("selectedModuleTitle");
 const selectedModuleDescription = document.getElementById("selectedModuleDescription");
 const selectedModulePrompts = document.getElementById("selectedModulePrompts");
@@ -186,12 +189,41 @@ initialize();
 animate();
 
 async function initialize() {
+  initializeMapBackdrop();
   setupCanvasSize();
   window.addEventListener("resize", setupCanvasSize);
 
   await seedModulesToApi();
   setSelectedModule(selectedModuleId, true);
   wireEvents();
+}
+
+function initializeMapBackdrop() {
+  if (!mapBackdrop || typeof L === "undefined") return;
+
+  if (!STADIA_MAPS_API_KEY || STADIA_MAPS_API_KEY === "YOUR_STADIA_MAPS_API_KEY") {
+    console.warn("Stadia Maps disabled. Add your key to STADIA_MAPS_API_KEY in app.js.");
+    return;
+  }
+
+  const map = L.map("mapBackdrop", {
+    zoomControl: false,
+    attributionControl: false,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    touchZoom: false
+  }).setView(ISTANBUL_CENTER, ISTANBUL_ZOOM);
+
+  L.tileLayer(
+    `https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png?api_key=${STADIA_MAPS_API_KEY}`,
+    {
+      maxZoom: 20,
+      tileSize: 256
+    }
+  ).addTo(map);
 }
 
 function initializeNodes(moduleData) {

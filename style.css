@@ -189,9 +189,22 @@ textarea:focus-visible,
     linear-gradient(165deg, #0d1730 0%, #0f1f3a 45%, #13294b 100%);
 }
 
+#mapBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  filter: saturate(0.9) contrast(1.05) brightness(0.85);
+}
+
+#mapBackdrop .leaflet-control-container {
+  display: none;
+}
+
 #networkCanvas {
   position: absolute;
   inset: 0;
+  z-index: 1;
   width: 100%;
   height: 100%;
   display: block;
@@ -220,7 +233,7 @@ textarea:focus-visible,
   position: absolute;
   right: 1rem;
   bottom: 1rem;
-  z-index: 5;
+  z-index: 6;
   background: rgba(9, 18, 36, 0.82);
   border: 1px solid rgba(240, 200, 94, 0.35);
   color: var(--gold-300);
@@ -240,6 +253,7 @@ textarea:focus-visible,
   position: absolute;
   right: 1.1rem;
   bottom: 1rem;
+  z-index: 5;
   width: min(560px, calc(100% - 2rem));
   height: min(560px, calc(100% - 4rem));
   border-radius: 50%;

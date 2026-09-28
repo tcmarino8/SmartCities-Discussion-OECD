@@ -7,14 +7,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  >
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a class="skip-link" href="#module-list">Skip to modules</a>
+  <!-- <a class="skip-link" href="#module-list">Skip to modules</a> -->
 
   <header class="site-header">
     <div class="brand-wrap">
-      <p class="eyebrow">OECD AI for Smart Cities</p>
+      <a href="AI_for_advancing_smart_cities.pdf" target="_blank" class="eyebrow"> AI for Advancing Smart Cities - OECD </a>
+      <!-- <a > </a> -->
       <p class="tagline">Explore core dimensions, connect ideas, and co-design better city futures.</p>
     </div>
     <div class="header-actions" aria-label="Graph and comment actions">
@@ -29,6 +36,7 @@
         <p>Drag to pan, scroll to zoom, click a node to open its orb discussion.</p>
       </div> -->
       <div class="canvas-shell">
+        <div id="mapBackdrop" aria-hidden="true"></div>
         <canvas id="networkCanvas" aria-hidden="true"></canvas>
         <!-- <div class="overlay-pill" role="note">Constellation mode: cursor drag pans space, wheel zooms, click opens node orb.</div> -->
         <button id="exportCommentsBtn" class="export-comments-float" type="button">Export Comments JSON</button>
@@ -99,6 +107,11 @@
     
   </footer>
 
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
   <script src="app.js"></script>
 </body>
 </html>

@@ -68,6 +68,22 @@ npm start
 
 - `POST /api/nodes`
 
+## Stadia Maps Background (Istanbul)
+
+The graph now supports a Stadia Maps tile background centered on Istanbul.
+
+1. Open app.js.
+2. Find this constant near the top:
+
+```js
+const STADIA_MAPS_API_KEY = "YOUR_STADIA_MAPS_API_KEY";
+```
+
+3. Replace `YOUR_STADIA_MAPS_API_KEY` with your real key.
+4. Restart the app if it is already running.
+
+The map is rendered as a non-interactive visual backdrop behind the constellation canvas.
+
 Body example:
 
 ```json
