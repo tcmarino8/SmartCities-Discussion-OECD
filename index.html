@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Cities Knowledge Graph</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  >
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- <a class="skip-link" href="#module-list">Skip to modules</a> -->
+
+  <header class="site-header">
+    <div class="brand-wrap">
+      <a href="AI_for_advancing_smart_cities.pdf" target="_blank" class="eyebrow"> AI for Advancing Smart Cities - OECD </a>
+      <!-- <a > </a> -->
+      <p class="tagline">Explore core dimensions, connect ideas, and co-design better city futures.</p>
+    </div>
+    <div class="header-actions" aria-label="Graph and comment actions">
+      <span class="app-badge">Constellation View</span>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="graph-panel" aria-labelledby="graphHeading">
+      <!-- <div class="panel-head">
+        <h2 id="graphHeading"></h2>
+        <p>Drag to pan, scroll to zoom, click a node to open its orb discussion.</p>
+      </div> -->
+      <div class="canvas-shell">
+        <div id="mapBackdrop" aria-hidden="true"></div>
+        <canvas id="networkCanvas" aria-hidden="true"></canvas>
+        <!-- <div class="overlay-pill" role="note">Constellation mode: cursor drag pans space, wheel zooms, click opens node orb.</div> -->
+        <button id="exportCommentsBtn" class="export-comments-float" type="button">Export Comments JSON</button>
+
+        <aside id="nodeFocusPanel" class="node-orb-popup hidden" aria-live="polite">
+          <div class="focus-header">
+            <h3 id="selectedModuleTitle">Select a module</h3>
+            <div class="focus-actions">
+              <button id="resetViewBtn" type="button">Return to Constellation</button>
+            </div>
+          </div>
+
+          <p id="selectedModuleDescription">Pick a module from the graph or list to begin.</p>
+
+          <div class="orb-scroll">
+            <div class="orb-section">
+              <h4>Research Prompts</h4>
+              <ul id="selectedModulePrompts"></ul>
+            </div>
+
+            <div class="orb-section">
+              <h4>Report Facts</h4>
+              <ul id="selectedModuleFacts" class="fact-list"></ul>
+            </div>
+
+            <div class="orb-section">
+              <h4>Share a Thought</h4>
+              <form id="commentForm" class="comment-form">
+                <div class="form-row">
+                  <label for="contributorName">Name</label>
+                  <input id="contributorName" name="contributorName" type="text" maxlength="60" required>
+                </div>
+
+                <div class="form-row">
+                  <label for="ideaType">Contribution Type</label>
+                  <select id="ideaType" name="ideaType" required>
+                    <option value="">Choose one</option>
+                    <option value="Comment">Comment</option>
+                    <option value="Research Idea">Research Idea</option>
+                    <option value="Question">Question</option>
+                    <option value="Method">Method</option>
+                    <option value="Challenge">Challenge</option>
+                  </select>
+                </div>
+
+                <div class="form-row">
+                  <label for="ideaText">Your Note</label>
+                  <textarea id="ideaText" name="ideaText" rows="3" maxlength="500" required></textarea>
+                </div>
+
+                <button id="submitCommentBtn" type="submit">Post to This Module</button>
+              </form>
+            </div>
+
+            <div class="comment-list-wrap orb-section">
+              <h4>Community Comments</h4>
+              <ul id="commentList" class="comment-list"></ul>
+            </div>
+
+            <div class="chatbot-wrap orb-section">
+              <h4>OECD Smart Cities Assistant</h4>
+              <p class="chatbot-hint">Ask about AI for smart cities, OECD findings, or projects mentioned in the report and OECD sources.</p>
+              <div id="chatbotStatus" class="chatbot-status" aria-live="polite">Ready</div>
+              <ul id="chatbotMessageList" class="chatbot-message-list" aria-live="polite"></ul>
+
+              <form id="chatbotForm" class="chatbot-form">
+                <div class="form-row">
+                  <label for="chatbotInput">Ask the assistant</label>
+                  <textarea id="chatbotInput" name="chatbotInput" rows="3" maxlength="800" required placeholder="Example: Which OECD projects use AI for inclusive mobility?"></textarea>
+                </div>
+                <button id="chatbotSubmitBtn" type="submit">Ask OECD Assistant</button>
+              </form>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="geo-panel" aria-labelledby="geoExplorerHeading">
+      <div class="panel-head">
+        <h2 id="geoExplorerHeading">Global Place Explorer</h2>
+        <p>Places detected in the OECD report with snippets and follow-up resources.</p>
+      </div>
+      <div class="geo-explorer-shell">
+        <div id="geoGlobe" class="geo-map" role="img" aria-label="Spinning globe with OECD report place mentions"></div>
+        <aside class="geo-details" aria-live="polite">
+          <h3 id="geoPlaceTitle">Select a map marker</h3>
+          <p id="geoPlaceSummary" class="geo-summary">Click a marker to inspect mention count, report snippets, and related links.</p>
+          <div class="geo-action-buttons">
+            <button id="openBuildingsBtn" type="button">Open Buildings</button>
+            <button id="openNdviBtn" type="button">Open NDVI</button>
+            <button id="openBothBtn" type="button">Open Both</button>
+          </div>
+          <div class="geo-section">
+            <h4>Report Snippets</h4>
+            <ul id="geoSnippetsList" class="geo-list"></ul>
+          </div>
+          <div class="geo-section">
+            <h4>Resources</h4>
+            <ul id="geoResourcesList" class="geo-list"></ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer class="site-footer">
+    
+  </footer>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="https://unpkg.com/globe.gl"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,388 @@
+{
+  "generatedAt": "2026-11-08T18:56:46.789Z",
+  "sourcePdf": "AI_for_advancing_smart_cities.pdf",
+  "sourceStats": {
+    "pages": 75,
+    "totalSentences": 1152
+  },
+  "places": [
+    {
+      "id": "seoul",
+      "name": "Seoul",
+      "country": "South Korea",
+      "coordinates": {
+        "lat": 37.5665,
+        "lng": 126.978
+      },
+      "mentions": 47,
+      "snippets": [
+        "AI for urban safety in the Seoul Metropolitan Area, Korea 30 4 | CFE/RDPC/URB(2025)27 ARTIFICIAL INTELLIGENCE FOR ADVANCING SMART CITIES For Official Use For Official Use - À usage officiel Acknowledgements This issues note was prepared by the OECD Centre for Entrepreneurship, SMEs, Regions and Cities (CFE) led by Lamia Kamal-Chaoui, Director, with the financial support of the Ministry of Land, Infrastructure and Transport (MOLIT) of Korea.",
+        "The OECD Secretariat is grateful to officials from Barcelona (Spain), London (UK), Montreal (Canada), Rotterdam (The Netherlands), Eslov (Sweden), Seoul (Korea), Tokyo (Japan), and Turin (Italy), for the inputs they provided during the interviews conducted for this issues note.",
+        "They anticipate AI use to expand exponentially, with the share of cities widely using it nearly tripling over the next three years (from 18% to 48%). • The Smart City Index (2024 [33] ), analysing over 5 000 smart city services, infrastructure and initiatives across 50 cities, points to a faster than ever AI adoption, particularly in city administration and mobility, and in cities like Seoul (Korea) that have pioneered the integration of AI into urban infrastructure.",
+        "This is the case of San Jose and San Francisco, Tel Aviv, Dubai, Paris, Berlin, Seoul, Hong-Kong and Tokyo.",
+        "Academia was represented by experts from the Seoul Institute of Technology, Research ICT Africa and the Kibabii University (Kenya), PIT Policy Lab (Mexico), the University of Montreal (Canada), and the Institute for Ethics in Artificial Intelligence of the Technische Universität München (Germany), among other institutions.",
+        "In Seoul (Korea), for example, municipal 2 Cities worldwide are using AI to address pressing urban challenges 16 | CFE/RDPC/URB(2025)27 ARTIFICIAL INTELLIGENCE FOR ADVANCING SMART CITIES For Official Use For Official Use - À usage officiel authorities and private companies such as Hyundai are testing autonomous mobility solutions, positioning the city as a living laboratory for these technologies (Seoul Metropolitan Government, 2025 [42] )."
+      ],
+      "resources": [
+        {
+          "label": "Seoul Smart City",
+          "url": "https://smartcity.seoul.go.kr/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Korea",
+          "url": "https://www.oecd.org/korea/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "barcelona",
+      "name": "Barcelona",
+      "country": "Spain",
+      "coordinates": {
+        "lat": 41.3874,
+        "lng": 2.1686
+      },
+      "mentions": 43,
+      "snippets": [
+        "AI-optimised ventilation in the metro in Barcelona, Spain 16 Box 5.",
+        "The OECD Secretariat is grateful to officials from Barcelona (Spain), London (UK), Montreal (Canada), Rotterdam (The Netherlands), Eslov (Sweden), Seoul (Korea), Tokyo (Japan), and Turin (Italy), for the inputs they provided during the interviews conducted for this issues note.",
+        "12 | CFE/RDPC/URB(2025)27 ARTIFICIAL INTELLIGENCE FOR ADVANCING SMART CITIES For Official Use For Official Use - À usage officiel • The Global Observatory of Urban Artificial Intelligence (GOUAI), a project initiated in 2021 by the cities of Barcelona, Amsterdam, and London with the support of UN-Habitat, documents 218 AI initiatives across 74 cities.",
+        "AI can modernise critical urban mobility infrastructure, as illustrated by the case of the metro in Barcelona (Box 4 ).",
+        "AI-optimised ventilation in the metro in Barcelona, Spain Barcelona (Spain) operates a century-old metro network with more than 130 stations and over 400 million annual passenger journeys.",
+        "The Barcelona metro faces challenges of particulate matter pollution, thermal stress, and ventilation inefficiencies."
+      ],
+      "resources": [
+        {
+          "label": "Ajuntament de Barcelona - Smart City",
+          "url": "https://ajuntament.barcelona.cat/digital/en",
+          "type": "city"
+        },
+        {
+          "label": "OECD Publications",
+          "url": "https://www.oecd.org/publications/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "montreal",
+      "name": "Montreal",
+      "country": "Canada",
+      "coordinates": {
+        "lat": 45.5019,
+        "lng": -73.5674
+      },
+      "mentions": 36,
+      "snippets": [
+        "Strategic integration of Artificial Intelligence in urban services in Montreal, Canada 21 Box 8.",
+        "The OECD Secretariat is grateful to officials from Barcelona (Spain), London (UK), Montreal (Canada), Rotterdam (The Netherlands), Eslov (Sweden), Seoul (Korea), Tokyo (Japan), and Turin (Italy), for the inputs they provided during the interviews conducted for this issues note.",
+        "Academia was represented by experts from the Seoul Institute of Technology, Research ICT Africa and the Kibabii University (Kenya), PIT Policy Lab (Mexico), the University of Montreal (Canada), and the Institute for Ethics in Artificial Intelligence of the Technische Universität München (Germany), among other institutions.",
+        "In this respect, Montreal (Canada) provides an example of how AI is used for inclusive urban design, to ensure visual concepts of public spaces reflect diverse needs and values.",
+        "Strategic integration of Artificial Intelligence in urban services in Montreal, Canada In September 2024, the City of Montreal (Canada) adopted its “Artificial Intelligence Integration Strategy”, consolidating nearly a decade of experimentation into a single, coherent framework.",
+        "The city enjoys a world-class AI ecosystem, home to institutions such as the public research centre in AI called “Mila – Quebec AI Institute” and IVADO, and was among the first signatories of the ‘Montreal Declaration for a Responsible Development of AI’ in 2018."
+      ],
+      "resources": [
+        {
+          "label": "Montréal Données ouvertes",
+          "url": "https://donnees.montreal.ca/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Canada",
+          "url": "https://www.oecd.org/canada/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "tokyo",
+      "name": "Tokyo",
+      "country": "Japan",
+      "coordinates": {
+        "lat": 35.6762,
+        "lng": 139.6503
+      },
+      "mentions": 24,
+      "snippets": [
+        "The OECD Secretariat is grateful to officials from Barcelona (Spain), London (UK), Montreal (Canada), Rotterdam (The Netherlands), Eslov (Sweden), Seoul (Korea), Tokyo (Japan), and Turin (Italy), for the inputs they provided during the interviews conducted for this issues note.",
+        "McGovern Foundation), Kazuko Kohri (Sendai, Japan), Robert Thomann (Mannheim, Germany), Aino-Maija Vaskelainen (Tampere, Finland), Gudrun Schwarz (Germany), Dong-Ha Lee (Korea), Estefania Tapias (WSP Middle East), Mato Franković (Dubrovnik, Croatia), Milene Göknur Jubin (GlobeholderAI), Jan Duffhues (Amsterdam, the Netherlands), Gianni Rossi (Arezzo, Italy), Milan Bogunovic (United Kingdom), Silvia Verace (A2A E-Mobility / A2A Group), Gaetano Volpe (Latitudo 40), Laurence Liew (AI Singapore), Marie Bernard (Nantes Metropole, France), Jürgen Spanhove (Ghent, Belgium), Elena Deambrogio (Turin, Italy), David Kim (KRIHS), Thomas Cottinet (France), Martin Memmel (German Research Center for Artificial Intelligence), Federico Fernandez (URBANLY), Geoffroy Boulard (Paris, France), Shuichiro Nakamura (Tokyo, Japan), Marlene Damerau (Gelsenkirchen, Germany), Juraj Hostak (Slovak Republic), Cristina Martinez Pinto (PIT Policy Lab, Mexico), George Harrington (ARUP Foresight), and Corey Gray (Smart Cities Council).",
+        "This is the case of San Jose and San Francisco, Tel Aviv, Dubai, Paris, Berlin, Seoul, Hong-Kong and Tokyo.",
+        "For instance, the Tokyo Metropolitan Government (Japan) is implementing various AI-driven initiatives such as introducing chatbots for handling public inquiries, improving infrastructure inspections through image recognition technologies, and incorporating data-driven analysis into policy development.",
+        "These efforts are not limited to internal administrative operations and aim to raise the quality of municipal services to Tokyo residents.",
+        "In Tokyo (Japan), one of the world’s most densely populated metropolitan areas, Internet of Things (IoT) sensors feed real-time data into digital twins that simulate disaster scenarios and support preparedness planning for earthquakes and other natural hazards."
+      ],
+      "resources": [
+        {
+          "label": "Tokyo Open Data",
+          "url": "https://portal.data.metro.tokyo.lg.jp/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Japan",
+          "url": "https://www.oecd.org/japan/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "paris",
+      "name": "Paris",
+      "country": "France",
+      "coordinates": {
+        "lat": 48.8566,
+        "lng": 2.3522
+      },
+      "mentions": 19,
+      "snippets": [
+        "McGovern Foundation), Kazuko Kohri (Sendai, Japan), Robert Thomann (Mannheim, Germany), Aino-Maija Vaskelainen (Tampere, Finland), Gudrun Schwarz (Germany), Dong-Ha Lee (Korea), Estefania Tapias (WSP Middle East), Mato Franković (Dubrovnik, Croatia), Milene Göknur Jubin (GlobeholderAI), Jan Duffhues (Amsterdam, the Netherlands), Gianni Rossi (Arezzo, Italy), Milan Bogunovic (United Kingdom), Silvia Verace (A2A E-Mobility / A2A Group), Gaetano Volpe (Latitudo 40), Laurence Liew (AI Singapore), Marie Bernard (Nantes Metropole, France), Jürgen Spanhove (Ghent, Belgium), Elena Deambrogio (Turin, Italy), David Kim (KRIHS), Thomas Cottinet (France), Martin Memmel (German Research Center for Artificial Intelligence), Federico Fernandez (URBANLY), Geoffroy Boulard (Paris, France), Shuichiro Nakamura (Tokyo, Japan), Marlene Damerau (Gelsenkirchen, Germany), Juraj Hostak (Slovak Republic), Cristina Martinez Pinto (PIT Policy Lab, Mexico), George Harrington (ARUP Foresight), and Corey Gray (Smart Cities Council).",
+        "Paris (France), for example, is applying AI to enhance the intelligence and responsiveness of several core public service areas such as water management, noise and nuisance monitoring, and urban planning analytics.",
+        "This is the case of San Jose and San Francisco, Tel Aviv, Dubai, Paris, Berlin, Seoul, Hong-Kong and Tokyo.",
+        "AI-assisted contact centre in Suresnes, France Suresnes is a dynamic suburb west of Paris that counts more than 49 000 residents and 1 100 municipal employees.",
+        "The AI-assisted contact centre was developed with the support of the Métropole du Grand Paris, and in partnership with NXO (an IT and digital infrastructure integrator) and Genesys (a customer experience and contact-center AI platform).",
+        "For instance, during the Paris 2024 Olympic Games, AI-enhanced video analytics monitored large gatherings, detecting crowd surges, unattended objects and unusual movement patterns (Dal Bello, Hirsch-Hoefler and Canetti, 2024 [73] )."
+      ],
+      "resources": [
+        {
+          "label": "Paris Open Data",
+          "url": "https://opendata.paris.fr/",
+          "type": "city"
+        },
+        {
+          "label": "OECD France",
+          "url": "https://www.oecd.org/france/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "london",
+      "name": "London",
+      "country": "United Kingdom",
+      "coordinates": {
+        "lat": 51.5074,
+        "lng": -0.1278
+      },
+      "mentions": 14,
+      "snippets": [
+        "AI for bat monitoring in London, United Kingdom 24 Box 9.",
+        "The OECD Secretariat is grateful to officials from Barcelona (Spain), London (UK), Montreal (Canada), Rotterdam (The Netherlands), Eslov (Sweden), Seoul (Korea), Tokyo (Japan), and Turin (Italy), for the inputs they provided during the interviews conducted for this issues note.",
+        "12 | CFE/RDPC/URB(2025)27 ARTIFICIAL INTELLIGENCE FOR ADVANCING SMART CITIES For Official Use For Official Use - À usage officiel • The Global Observatory of Urban Artificial Intelligence (GOUAI), a project initiated in 2021 by the cities of Barcelona, Amsterdam, and London with the support of UN-Habitat, documents 218 AI initiatives across 74 cities.",
+        "The Queen Elizabeth Olympic Park in London (UK) provides an example of how AI-powered acoustic sensors have been used to map bat populations, offering insights into biodiversity trends and informing park management (Queen Elizabeth Olympic Park, 2017 [60] ) (Box 8).",
+        "AI for bat monitoring in London, United Kingdom Urbanisation transforms natural habitats into built environments, fragmenting ecosystems and threatening species survival.",
+        "A bat monitoring initiative in London’s Queen Elizabeth Olympic Park uses 15 ultrasonic sensors installed on lampposts across the park to record bat calls continuously."
+      ],
+      "resources": [
+        {
+          "label": "London Datastore",
+          "url": "https://data.london.gov.uk/",
+          "type": "city"
+        },
+        {
+          "label": "OECD United Kingdom",
+          "url": "https://www.oecd.org/unitedkingdom/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "amsterdam",
+      "name": "Amsterdam",
+      "country": "Netherlands",
+      "coordinates": {
+        "lat": 52.3676,
+        "lng": 4.9041
+      },
+      "mentions": 12,
+      "snippets": [
+        "McGovern Foundation), Kazuko Kohri (Sendai, Japan), Robert Thomann (Mannheim, Germany), Aino-Maija Vaskelainen (Tampere, Finland), Gudrun Schwarz (Germany), Dong-Ha Lee (Korea), Estefania Tapias (WSP Middle East), Mato Franković (Dubrovnik, Croatia), Milene Göknur Jubin (GlobeholderAI), Jan Duffhues (Amsterdam, the Netherlands), Gianni Rossi (Arezzo, Italy), Milan Bogunovic (United Kingdom), Silvia Verace (A2A E-Mobility / A2A Group), Gaetano Volpe (Latitudo 40), Laurence Liew (AI Singapore), Marie Bernard (Nantes Metropole, France), Jürgen Spanhove (Ghent, Belgium), Elena Deambrogio (Turin, Italy), David Kim (KRIHS), Thomas Cottinet (France), Martin Memmel (German Research Center for Artificial Intelligence), Federico Fernandez (URBANLY), Geoffroy Boulard (Paris, France), Shuichiro Nakamura (Tokyo, Japan), Marlene Damerau (Gelsenkirchen, Germany), Juraj Hostak (Slovak Republic), Cristina Martinez Pinto (PIT Policy Lab, Mexico), George Harrington (ARUP Foresight), and Corey Gray (Smart Cities Council).",
+        "12 | CFE/RDPC/URB(2025)27 ARTIFICIAL INTELLIGENCE FOR ADVANCING SMART CITIES For Official Use For Official Use - À usage officiel • The Global Observatory of Urban Artificial Intelligence (GOUAI), a project initiated in 2021 by the cities of Barcelona, Amsterdam, and London with the support of UN-Habitat, documents 218 AI initiatives across 74 cities.",
+        "Collaboration with European peers, including Amsterdam (The Netherlands), Hamburg (Germany), Milan (Italy) and Tampere (Finland), has helped refine technical approaches and align with emerging standards for urban digital twins and “Cityverse” development.",
+        "Rotterdam, together with Amsterdam and Eurocities, has created an algorithm registry to document AI systems, monitor risk levels and align with the EU AI Act’s transparency requirements.",
+        "Amsterdam (The Netherlands), for instance, since 2020 has instituted a public algorithm register ‘Algorithm Register Beta’, which requires municipal departments to document automated systems, create oversight mechanisms and ensure transparency and accountability across departments (OECD.AI Policy Observatory, 2023 [70] ).",
+        "The experience of Amsterdam (The Netherlands) suggests that AI literacy is not only required for citizens, but for municipal officials themselves."
+      ],
+      "resources": [
+        {
+          "label": "Amsterdam Smart City",
+          "url": "https://amsterdamsmartcity.com/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Urban Policy",
+          "url": "https://www.oecd.org/en/topics/urban-rural-and-regional-development.html",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "helsinki",
+      "name": "Helsinki",
+      "country": "Finland",
+      "coordinates": {
+        "lat": 60.1699,
+        "lng": 24.9384
+      },
+      "mentions": 11,
+      "snippets": [
+        "The city of Helsinki (Finland) has introduced an AI-powered chatbot to assist residents in navigating rental housing services, offering 24/7 multilingual support while reducing the administrative burden on city staff (City of Helsinki, 2025 [49] ).",
+        "Tools such as UrbanistAI (Box 1), used in Helsinki and Dubai, apply generative AI to visualise citizen input, making complex land use scenarios easier to understand and debate (UrbanistAI, n.d. [22] ).",
+        "For example, Rotterdam and Helsinki employ geospatial, cadastral and satellite imagery data, alongside housing market information, to monitor housing developments, predict pricing trends and improve city service responsiveness.",
+        "In procurement, the city requires algorithmic impact assessment for digital solutions deployed in the city. • Amsterdam (The Netherlands) and Helsinki (Finland) maintain public AI Registers where algorithms used by the city are inventoried and documented, including considerations about risk level, human oversight and fairness.",
+        "Participants integrate a European network of peers for knowledge exchange and peer learning on AI. • The city of Helsinki’s “AI ABC” course and the City of Suresnes’ hybrid AI-assisted contact centre illustrate how public administrations can combine human expertise with AI capabilities to enhance responsiveness while maintaining human oversight.",
+        "Partnering with academia is part of the city’s digital rights commitments (Cities Coalition for Digital Rights, 2025 [135] ). • The Helsinki AI register was co-developed by the City and Helsinki’s Centre for Data Science."
+      ],
+      "resources": [
+        {
+          "label": "City of Helsinki Open Data",
+          "url": "https://www.hel.fi/en/decision-making/information/open-data",
+          "type": "city"
+        },
+        {
+          "label": "OECD AI Policy Observatory",
+          "url": "https://oecd.ai/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "singapore",
+      "name": "Singapore",
+      "country": "Singapore",
+      "coordinates": {
+        "lat": 1.3521,
+        "lng": 103.8198
+      },
+      "mentions": 8,
+      "snippets": [
+        "McGovern Foundation), Kazuko Kohri (Sendai, Japan), Robert Thomann (Mannheim, Germany), Aino-Maija Vaskelainen (Tampere, Finland), Gudrun Schwarz (Germany), Dong-Ha Lee (Korea), Estefania Tapias (WSP Middle East), Mato Franković (Dubrovnik, Croatia), Milene Göknur Jubin (GlobeholderAI), Jan Duffhues (Amsterdam, the Netherlands), Gianni Rossi (Arezzo, Italy), Milan Bogunovic (United Kingdom), Silvia Verace (A2A E-Mobility / A2A Group), Gaetano Volpe (Latitudo 40), Laurence Liew (AI Singapore), Marie Bernard (Nantes Metropole, France), Jürgen Spanhove (Ghent, Belgium), Elena Deambrogio (Turin, Italy), David Kim (KRIHS), Thomas Cottinet (France), Martin Memmel (German Research Center for Artificial Intelligence), Federico Fernandez (URBANLY), Geoffroy Boulard (Paris, France), Shuichiro Nakamura (Tokyo, Japan), Marlene Damerau (Gelsenkirchen, Germany), Juraj Hostak (Slovak Republic), Cristina Martinez Pinto (PIT Policy Lab, Mexico), George Harrington (ARUP Foresight), and Corey Gray (Smart Cities Council).",
+        "Singapore uses AI to optimise traffic flows, dynamically adjust public transit schedules, and manage energy grids more efficiently (AEA, 2024 [29] ).",
+        "Singapore provides practical guidance to government agencies for deploying AI.",
+        "These offers are part of the UK’s “Artificial Intelligence Resources for the Public Sector.” • The experience of Singapore, the City-State, shows that successful AI adoption in cities depends on broad investment in human capital rather than narrow technical recruitment.",
+        "AI Singapore has run over 300 applied AI projects aimed not only to deliver solutions, but also to train engineers.",
+        "Singapore’s government has provided AI literacy training to 250 000 people, to overcome low workforce literacy."
+      ],
+      "resources": [
+        {
+          "label": "Smart Nation Singapore",
+          "url": "https://www.smartnation.gov.sg/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Southeast Asia",
+          "url": "https://www.oecd.org/southeast-asia/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "dubai",
+      "name": "Dubai",
+      "country": "United Arab Emirates",
+      "coordinates": {
+        "lat": 25.2048,
+        "lng": 55.2708
+      },
+      "mentions": 7,
+      "snippets": [
+        "This is the case of San Jose and San Francisco, Tel Aviv, Dubai, Paris, Berlin, Seoul, Hong-Kong and Tokyo.",
+        "Tools such as UrbanistAI (Box 1), used in Helsinki and Dubai, apply generative AI to visualise citizen input, making complex land use scenarios easier to understand and debate (UrbanistAI, n.d. [22] ).",
+        "For example, in Dubai, residents take part in designing urban areas such as parks through the Dubai Urban Design Platform.",
+        "For example, Dubai has launched its platform Dubai Live in October 2025, offering a city-wide, AI-powered command hub integrating real-time monitoring, predictive analytics, digital-twin modelling and operational co-ordination across mobility, infrastructure, waste, inspections and more.",
+        "It is conceived as a baseline operational platform rather than just a short-term pilot (Government of Dubai, 2025 [74] ).",
+        "The MIT Senseable City Lab, which focuses on urban studies using sensors and data, has previously launched joint labs in Amsterdam, Singapore, Stockholm, Rio de Janeiro and Dubai."
+      ],
+      "resources": [
+        {
+          "label": "Smart Dubai",
+          "url": "https://www.smartdubai.ae/",
+          "type": "city"
+        },
+        {
+          "label": "OECD MENA",
+          "url": "https://www.oecd.org/mena/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "los-angeles",
+      "name": "Los Angeles",
+      "country": "United States",
+      "coordinates": {
+        "lat": 34.0522,
+        "lng": -118.2437
+      },
+      "mentions": 3,
+      "snippets": [
+        "For instance, in Los Angeles County (United States), local authorities have applied predictive analytics to prevent homelessness by proactively identifying individuals at heightened risk of losing their home (Kempe, 2024 [47] ).",
+        "3/1, https://doi.org/10.1186/s42162-020-00108-6. [86] Blackwell, B. et al. (2024), The Homelessness Prevention Unit: A Proactive Approach to Preventing Homelessness in Los Angeles County, California Policy Lab, https://capolicylab.org/the-homelessness-prevention-unit-a-proactive-approach-to-preventing- homelessness-in-los-angeles-county/. [48] Bulkeley, H. (2013), Cities and Climate Change, Routledge, https://doi.org/10.4324/9780203077207. [5] Calvino, F., D.",
+        "Los Angeles County is finding out., https://www.smartcitiesdive.com/news/ai-predict-prevent-homelessness-los- angeles-county/733869/ (accessed on 25 September 2025). [47] Kergroach, S. (forthcoming), Towards place-based strategies for AI, OECD Regional Development Papers. [66] Kergroach, S. and J."
+      ],
+      "resources": [
+        {
+          "label": "Los Angeles Open Data",
+          "url": "https://data.lacity.org/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Open Government Data",
+          "url": "https://www.oecd.org/gov/digital-government/open-government-data.htm",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "vienna",
+      "name": "Vienna",
+      "country": "Austria",
+      "coordinates": {
+        "lat": 48.2082,
+        "lng": 16.3738
+      },
+      "mentions": 2,
+      "snippets": [
+        "In Vienna (Austria), 26% of businesses use AI in 2024, up from 16% in 2023.",
+        "Vienna hosts numerous research institutions and universities, world-class research facilities and innovative firms, the region having developed an edge on renewable energy, smart city and environmental technologies."
+      ],
+      "resources": [
+        {
+          "label": "DigitalCity.Wien",
+          "url": "https://digitalcity.wien/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Austria",
+          "url": "https://www.oecd.org/austria/",
+          "type": "oecd"
+        }
+      ]
+    },
+    {
+      "id": "sydney",
+      "name": "Sydney",
+      "country": "Australia",
+      "coordinates": {
+        "lat": -33.8688,
+        "lng": 151.2093
+      },
+      "mentions": 1,
+      "snippets": [
+        "For example, Sydney (Australia) uses Google’s Environmental Insights Explorer (EIE) “Tree Canopy,” which applies machine learning to aerial imagery, to visualise canopy gaps at neighbourhood scale and plan where shade/trees are most needed for heat-vulnerable areas."
+      ],
+      "resources": [
+        {
+          "label": "City of Sydney Data Hub",
+          "url": "https://data.cityofsydney.nsw.gov.au/",
+          "type": "city"
+        },
+        {
+          "label": "OECD Australia",
+          "url": "https://www.oecd.org/australia/",
+          "type": "oecd"
+        }
+      ]
+    }
+  ]
+}

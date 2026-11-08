@@ -1,0 +1,32 @@
+{
+  "moduleId": "governance",
+  "anchors": [
+    {
+      "id": "gov-anchor-1",
+      "text": "City AI governance improves when procurement, policy, and data strategy are aligned.",
+      "page": "TBD",
+      "section": "Governance and institutional capacity",
+      "url": "AI_for_advancing_smart_cities.pdf",
+      "sourceLabel": "AI for Advancing Smart Cities",
+      "tags": ["governance", "procurement", "policy", "data strategy"]
+    },
+    {
+      "id": "gov-anchor-2",
+      "text": "Linking pilot projects to social impact indicators supports long-term public value.",
+      "page": "TBD",
+      "section": "Monitoring and evaluation",
+      "url": "AI_for_advancing_smart_cities.pdf",
+      "sourceLabel": "AI for Advancing Smart Cities",
+      "tags": ["impact", "evaluation", "pilot", "public value"]
+    },
+    {
+      "id": "gov-anchor-3",
+      "text": "Cross-sector and multi-stakeholder governance increases the likelihood of scaling successful pilots.",
+      "page": "TBD",
+      "section": "Scaling and coordination",
+      "url": "AI_for_advancing_smart_cities.pdf",
+      "sourceLabel": "AI for Advancing Smart Cities",
+      "tags": ["stakeholder", "scaling", "coordination", "institutions"]
+    }
+  ]
+}
