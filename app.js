@@ -203,6 +203,9 @@ let selectedGeoPlace = null;
 let isHoveringGeoPoint = false;
 let isGeoSpinLocked = false;
 let ignoreGlobeClickUntil = 0;
+let layoutResizeObserver = null;
+let lastGeoGlobeSize = { width: 0, height: 0 };
+let lastCanvasSize = { width: 0, height: 0 };
 
 initialize();
 animate();
@@ -210,8 +213,8 @@ animate();
 async function initialize() {
   initializeMapBackdrop();
   await initializeGeoExplorer();
-  setupCanvasSize();
-  window.addEventListener("resize", setupCanvasSize);
+  syncResponsiveLayout();
+  setupResponsiveLayoutObservers();
 
   await seedModulesToApi();
   setSelectedModule(selectedModuleId, true);
@@ -289,6 +292,7 @@ async function initializeGeoExplorer() {
     const controls = geoGlobe.controls();
     controls.autoRotateSpeed = 0.6;
     syncGeoAutoRotate();
+    resizeGeoGlobe();
 
     if (!pointData.length) {
       geoPlaceTitle.textContent = "No place mentions found yet";
@@ -303,6 +307,48 @@ async function initializeGeoExplorer() {
     if (geoPlaceTitle) geoPlaceTitle.textContent = "Geo explorer unavailable";
     if (geoPlaceSummary) geoPlaceSummary.textContent = `Could not load place data. ${error.message}`;
   }
+}
+
+function setupResponsiveLayoutObservers() {
+  window.addEventListener("resize", syncResponsiveLayout);
+
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", syncResponsiveLayout);
+  }
+
+  if (typeof ResizeObserver === "undefined") return;
+
+  if (layoutResizeObserver) {
+    layoutResizeObserver.disconnect();
+  }
+
+  layoutResizeObserver = new ResizeObserver(() => {
+    syncResponsiveLayout();
+  });
+
+  if (canvas?.parentElement) {
+    layoutResizeObserver.observe(canvas.parentElement);
+  }
+
+  layoutResizeObserver.observe(document.documentElement);
+}
+
+function syncResponsiveLayout() {
+  setupCanvasSize();
+  resizeGeoGlobe();
+}
+
+function resizeGeoGlobe() {
+  if (!geoGlobe || !geoMapContainer) return;
+
+  const nextWidth = Math.max(180, Math.floor(geoMapContainer.clientWidth));
+  const nextHeight = Math.max(180, Math.floor(geoMapContainer.clientHeight));
+
+  if (lastGeoGlobeSize.width === nextWidth && lastGeoGlobeSize.height === nextHeight) return;
+
+  geoGlobe.width(nextWidth);
+  geoGlobe.height(nextHeight);
+  lastGeoGlobeSize = { width: nextWidth, height: nextHeight };
 }
 
 async function loadGeoDataset() {
@@ -473,9 +519,17 @@ function createStarField(count) {
 }
 
 function setupCanvasSize() {
+  if (!canvas || !canvas.parentElement) return;
+
   const parent = canvas.parentElement;
-  width = canvas.width = parent.clientWidth;
-  height = canvas.height = parent.clientHeight;
+  const nextWidth = Math.max(180, Math.floor(parent.clientWidth));
+  const nextHeight = Math.max(180, Math.floor(parent.clientHeight));
+
+  if (lastCanvasSize.width === nextWidth && lastCanvasSize.height === nextHeight) return;
+
+  width = canvas.width = nextWidth;
+  height = canvas.height = nextHeight;
+  lastCanvasSize = { width: nextWidth, height: nextHeight };
 
   if (!nodes.some((node) => node.seeded)) {
     const radiusX = Math.min(width, height) * 0.29;
