@@ -80,6 +80,15 @@ This generates `data/oecd-geo-database.json` with place mentions, snippets, and 
   - Google Open Buildings (`https://sites.research.google/gr/open-buildings/`)
   - A NASA Worldview NDVI view centered near that place
   - Both in separate tabs
+- Data loading strategy:
+  - First tries `GET /api/geo/places`
+  - Falls back to static `data/oecd-geo-database.json` (works on static hosting like Vercel without a custom API)
+
+## Vercel Deployment Notes
+
+- Commit `data/oecd-geo-database.json` so it is available at `/data/oecd-geo-database.json` in production.
+- If you only need globe place data, no custom backend API is required.
+- Existing chat/comments/Neo4j endpoints (`/api/chatbot/query`, `/api/comments`, etc.) still require a backend runtime (Express/serverless) if you want those features enabled.
 
 4. Open:
 
@@ -96,6 +105,20 @@ This generates `data/oecd-geo-database.json` with place mentions, snippets, and 
 - `GET /api/geo/places`
 - Reads the generated `data/oecd-geo-database.json` dataset.
 - Returns 404 with guidance if the extraction script has not been run yet.
+
+### Import Geo Places to Neo4j
+
+- `POST /api/geo/places/import`
+- Upserts `Place` nodes and linked `PlaceResource` nodes from `data/oecd-geo-database.json`.
+- Optional body:
+
+```json
+{
+  "replaceExisting": true
+}
+```
+
+- When `replaceExisting` is true, existing `Place`/`PlaceResource` graph data is cleared before import.
 
 ### Schema Init
 

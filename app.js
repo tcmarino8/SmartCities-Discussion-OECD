@@ -219,15 +219,15 @@ async function initialize() {
 }
 
 async function initializeGeoExplorer() {
-  if (!geoMapContainer || typeof Globe === "undefined") return;
+  if (!geoMapContainer) return;
+  if (typeof Globe === "undefined") {
+    if (geoPlaceTitle) geoPlaceTitle.textContent = "Globe dependency failed to load";
+    if (geoPlaceSummary) geoPlaceSummary.textContent = "Check network/CSP settings for https://unpkg.com/globe.gl";
+    return;
+  }
 
   try {
-    const response = await fetch("/api/geo/places");
-    if (!response.ok) {
-      throw new Error(`Geo data request failed (${response.status})`);
-    }
-
-    const payload = await response.json();
+    const payload = await loadGeoDataset();
     const places = Array.isArray(payload.places) ? payload.places : [];
 
     const pointData = places
@@ -303,6 +303,23 @@ async function initializeGeoExplorer() {
     if (geoPlaceTitle) geoPlaceTitle.textContent = "Geo explorer unavailable";
     if (geoPlaceSummary) geoPlaceSummary.textContent = `Could not load place data. ${error.message}`;
   }
+}
+
+async function loadGeoDataset() {
+  const endpoints = ["/api/geo/places", "/data/oecd-geo-database.json"];
+  let lastError = null;
+
+  for (const endpoint of endpoints) {
+    try {
+      const response = await fetch(endpoint);
+      if (!response.ok) throw new Error(`Geo data request failed (${response.status}) from ${endpoint}`);
+      return await response.json();
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("No geo dataset endpoint available");
 }
 
 function syncGeoAutoRotate() {

@@ -22,7 +22,7 @@ const mcpBridgeUrl = process.env.MCP_BRIDGE_URL || "";
 const mcpBridgeApiKey = process.env.MCP_BRIDGE_API_KEY || "";
 const defaultOecdScope = process.env.OECD_SITE_SCOPE || "https://www.oecd.org";
 
-const allowedNodeLabels = new Set(["Person", "Comment", "ReportText", "Module"]);
+const allowedNodeLabels = new Set(["Person", "Comment", "ReportText", "Module", "Place", "PlaceResource"]);
 const allowedRelations = new Set([
   "FOLLOWS_PERSON",
   "FOLLOWS_MODULE",
@@ -30,7 +30,8 @@ const allowedRelations = new Set([
   "BELONGS_TO_MODULE",
   "SOURCE_TEXT_BELONGS_TO_MODULE",
   "COMMENT_REFERENCES_SOURCE_TEXT",
-  "PERSON_MENTIONS_MODULE"
+  "PERSON_MENTIONS_MODULE",
+  "HAS_RESOURCE"
 ]);
 
 function hasNeo4jConfig() {
@@ -120,12 +121,15 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
-app.get("/api/geo/places", async (req, res) => {
+async function readGeoDatasetFromFile() {
   const datasetPath = path.join(__dirname, "data", "oecd-geo-database.json");
+  const raw = await fs.readFile(datasetPath, "utf8");
+  return JSON.parse(raw);
+}
 
+app.get("/api/geo/places", async (req, res) => {
   try {
-    const raw = await fs.readFile(datasetPath, "utf8");
-    const parsed = JSON.parse(raw);
+    const parsed = await readGeoDatasetFromFile();
     const places = Array.isArray(parsed?.places) ? parsed.places : [];
 
     return res.status(200).json({
@@ -139,6 +143,131 @@ app.get("/api/geo/places", async (req, res) => {
       return res.status(404).json({
         error: "Geo dataset not found. Run: npm run extract:places"
       });
+    }
+
+    return res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/geo/places/import", async (req, res) => {
+  if (!hasNeo4jConfig()) return res.status(503).json({ error: "Neo4j credentials not configured" });
+
+  try {
+    const parsed = await readGeoDatasetFromFile();
+    const places = Array.isArray(parsed?.places) ? parsed.places : [];
+    const replaceExisting = Boolean(req.body?.replaceExisting);
+
+    if (!places.length) {
+      return res.status(400).json({ error: "No places found in dataset. Run: npm run extract:places" });
+    }
+
+    const session = driver.session({ database: dbName });
+    const tx = session.beginTransaction();
+
+    try {
+      if (replaceExisting) {
+        await tx.run("MATCH (r:PlaceResource) DETACH DELETE r");
+        await tx.run("MATCH (p:Place) DETACH DELETE p");
+      }
+
+      let importedPlaces = 0;
+      let importedResources = 0;
+
+      for (const place of places) {
+        const placeId = String(place?.id || "").trim();
+        if (!placeId) continue;
+
+        const name = String(place?.name || placeId).trim();
+        const country = String(place?.country || "").trim();
+        const lat = Number(place?.coordinates?.lat);
+        const lng = Number(place?.coordinates?.lng);
+        const mentions = Number(place?.mentions || 0);
+        const snippets = Array.isArray(place?.snippets)
+          ? place.snippets.filter((snippet) => typeof snippet === "string").slice(0, 12)
+          : [];
+
+        await tx.run(
+          `
+          MERGE (p:Place {id: $id})
+          SET p.name = $name,
+              p.country = $country,
+              p.lat = $lat,
+              p.lng = $lng,
+              p.mentions = $mentions,
+              p.snippets = $snippets,
+              p.sourcePdf = $sourcePdf,
+              p.sourceGeneratedAt = $sourceGeneratedAt,
+              p.updatedAt = datetime(),
+              p.createdAt = coalesce(p.createdAt, datetime())
+          `,
+          {
+            id: placeId,
+            name,
+            country,
+            lat: Number.isFinite(lat) ? lat : null,
+            lng: Number.isFinite(lng) ? lng : null,
+            mentions: Number.isFinite(mentions) ? mentions : 0,
+            snippets,
+            sourcePdf: String(parsed?.sourcePdf || ""),
+            sourceGeneratedAt: String(parsed?.generatedAt || "")
+          }
+        );
+
+        importedPlaces += 1;
+
+        const resources = Array.isArray(place?.resources) ? place.resources : [];
+        for (const [index, resource] of resources.entries()) {
+          const resourceUrl = String(resource?.url || "").trim();
+          if (!resourceUrl) continue;
+
+          const resourceLabel = String(resource?.label || resourceUrl).trim();
+          const resourceType = String(resource?.type || "").trim();
+          const resourceId = `resource-${placeId}-${normalizeId(resourceUrl || resourceLabel || String(index))}`;
+
+          await tx.run(
+            `
+            MATCH (p:Place {id: $placeId})
+            MERGE (r:PlaceResource {id: $resourceId})
+            SET r.label = $label,
+                r.url = $url,
+                r.type = $type,
+                r.updatedAt = datetime(),
+                r.createdAt = coalesce(r.createdAt, datetime())
+            MERGE (p)-[hr:HAS_RESOURCE]->(r)
+            SET hr.updatedAt = datetime(),
+                hr.createdAt = coalesce(hr.createdAt, datetime())
+            `,
+            {
+              placeId,
+              resourceId,
+              label: resourceLabel,
+              url: resourceUrl,
+              type: resourceType
+            }
+          );
+
+          importedResources += 1;
+        }
+      }
+
+      await tx.commit();
+      await session.close();
+
+      return res.status(200).json({
+        importedPlaces,
+        importedResources,
+        replaceExisting,
+        sourcePdf: parsed?.sourcePdf || null,
+        generatedAt: parsed?.generatedAt || null
+      });
+    } catch (error) {
+      await tx.rollback();
+      await session.close();
+      return res.status(500).json({ error: error.message });
+    }
+  } catch (error) {
+    if (error.code === "ENOENT") {
+      return res.status(404).json({ error: "Geo dataset not found. Run: npm run extract:places" });
     }
 
     return res.status(500).json({ error: error.message });
@@ -529,7 +658,9 @@ app.post("/api/schema/init", async (req, res) => {
     "CREATE CONSTRAINT person_id_unique IF NOT EXISTS FOR (p:Person) REQUIRE p.id IS UNIQUE",
     "CREATE CONSTRAINT comment_id_unique IF NOT EXISTS FOR (c:Comment) REQUIRE c.id IS UNIQUE",
     "CREATE CONSTRAINT module_id_unique IF NOT EXISTS FOR (m:Module) REQUIRE m.id IS UNIQUE",
-    "CREATE CONSTRAINT source_id_unique IF NOT EXISTS FOR (s:ReportText) REQUIRE s.id IS UNIQUE"
+    "CREATE CONSTRAINT source_id_unique IF NOT EXISTS FOR (s:ReportText) REQUIRE s.id IS UNIQUE",
+    "CREATE CONSTRAINT place_id_unique IF NOT EXISTS FOR (p:Place) REQUIRE p.id IS UNIQUE",
+    "CREATE CONSTRAINT place_resource_id_unique IF NOT EXISTS FOR (r:PlaceResource) REQUIRE r.id IS UNIQUE"
   ];
 
   try {
